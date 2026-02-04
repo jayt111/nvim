@@ -1,4 +1,8 @@
-# 💤 LazyVim
+#  Jack's LazyVim Config
 
-A starter template for [LazyVim](https://github.com/LazyVim/LazyVim).
-Refer to the [documentation](https://lazyvim.github.io/installation) to get started.
+This is my setup I use for the LazyVim distribution of neovim
+
+---
+## Note:
+Cornelis has to be installed manually through `stack` for now as it times out the neovim build timer.
+
