@@ -9,7 +9,7 @@
 
 -- CPP keybinds
 vim.api.nvim_create_autocmd("FileType", {
-  pattern = { "c", "cpp", "h", "hpp" },
+  pattern = { "c", "cpp", "h", "hpp", "cmake" },
   callback = function(ev)
     local wk = require("which-key")
     wk.add({
@@ -38,6 +38,36 @@ vim.api.nvim_create_autocmd("FileType", {
       buffer = ev.buf,
       silent = true,
     })
+    vim.keymap.set("n", "<leader>hr", "<cmd>CMakeRun<CR>", {
+      desc = "Run CMake",
+      buffer = ev.buf,
+      silent = true,
+    })
+    vim.keymap.set("n", "<leader>ht", "<cmd>CMakeRunTest<CR>", {
+      desc = "Run Tests",
+      buffer = ev.buf,
+      silent = true,
+    })
+    vim.keymap.set("n", "<leader>hg", "<cmd>CMakeGenerate<CR>", {
+      desc = "CMake Generate",
+      buffer = ev.buf,
+      silent = true,
+    })
+    vim.keymap.set("n", "<leader>hb", "<cmd>CMakeBuild<CR>", {
+      desc = "CMake Build",
+      buffer = ev.buf,
+      silent = true,
+    })
+    vim.keymap.set("n", "<leader>ho", "<cmd>ImplementOutOfClass<CR>", {
+      desc = "Implement in header",
+      buffer = ev.buf,
+      silent = true,
+    })
+    vim.keymap.set("n", "<leader>hv", "<cmd>GotoHeaderFile<CR>", {
+      desc = "Go to header",
+      buffer = ev.buf,
+      silent = true,
+    })
   end,
 })
 
@@ -59,7 +89,7 @@ vim.api.nvim_create_autocmd("FileType", {
 
     vim.keymap.set(
       "n",
-      "<leader>ht",
+      "<leader>hc",
       "<cmd>CornelisTypeContext<CR>",
       { desc = "Show Type Context", buffer = ev.buf, silent = true }
     )
@@ -84,10 +114,26 @@ vim.api.nvim_create_autocmd("FileType", {
 
     vim.keymap.set(
       "n",
-      "<leader>hc",
+      "<leader>hn",
+      "<cmd>CornelisNormalize<CR>",
+      { desc = "Normalize Expression", buffer = ev.buf, silent = true }
+    )
+
+    vim.keymap.set(
+      "n",
+      "<leader>ht",
+      "<cmd>CornelisTypeInfer<CR>",
+      { desc = "Infer Type", buffer = ev.buf, silent = true }
+    )
+
+    vim.keymap.set(
+      "n",
+      "<leader>hm",
       "<cmd>CornelisMakeCase<CR>",
       { desc = "Make Case", buffer = ev.buf, silent = true }
     )
+
+    vim.keymap.set("n", "<leader>hh", "<cmd>CornelisGive<CR>", { desc = "Give", buffer = ev.buf, silent = true })
     -- Insert Unicode symbol picker
     vim.keymap.set("i", "<localleader>u", function()
       require("telescope.builtin").symbols({
@@ -106,5 +152,22 @@ vim.api.nvim_create_autocmd("FileType", {
         end
       end,
     })
+
+    vim.cmd([[call cornelis#bind_input("lam", "λ")]])
+  end,
+})
+-- Hide CMakeTools runner terminal from buffer list (buffer gets renamed after TermOpen)
+vim.api.nvim_create_autocmd("TermOpen", {
+  callback = function(ev)
+    vim.defer_fn(function()
+      if not vim.api.nvim_buf_is_valid(ev.buf) then
+        return
+      end
+
+      local name = vim.api.nvim_buf_get_name(ev.buf)
+      if name:match("%[CMakeTools%]: Runner Terminal") then
+        vim.bo[ev.buf].buflisted = false
+      end
+    end, 50) -- small delay so the plugin has time to rename it
   end,
 })

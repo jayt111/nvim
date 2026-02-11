@@ -17,6 +17,6 @@ vim.keymap.set("n", "N", "Nzzzv", opts)
 -- Keep last yanked when pasting
 vim.keymap.set("v", "p", '"_dP', opts)
 
---vim.keymap.set("i", "<localleader> <C-O>", "<cmd>call cornelis#prompt_input()<CR>")
-
---inoremap <localleader> <C-O>:call cornelis#prompt_input()<CR>
+vim.keymap.set("n", "<leader>cb", function()
+  require("utils.banner").insert_banner()
+end, { desc = "Insert Banner Comment" })
