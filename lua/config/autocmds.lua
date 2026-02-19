@@ -68,6 +68,11 @@ vim.api.nvim_create_autocmd("FileType", {
       buffer = ev.buf,
       silent = true,
     })
+    vim.keymap.set("n", "<leader>hs", "<cmd>CMakeSelectLaunchTarget<CR>", {
+      desc = "Select File to Run",
+      buffer = ev.buf,
+      silent = true,
+    })
   end,
 })
 
@@ -133,9 +138,15 @@ vim.api.nvim_create_autocmd("FileType", {
       { desc = "Make Case", buffer = ev.buf, silent = true }
     )
 
+    vim.keymap.set(
+      "n",
+      "<leader>h?",
+      "<cmd>CornelisQuestionToMeta<CR>",
+      { desc = "Make Case", buffer = ev.buf, silent = true }
+    )
     vim.keymap.set("n", "<leader>hh", "<cmd>CornelisGive<CR>", { desc = "Give", buffer = ev.buf, silent = true })
     -- Insert Unicode symbol picker
-    vim.keymap.set("i", "<localleader>u", function()
+    vim.keymap.set("i", "<localleader>uu", function()
       require("telescope.builtin").symbols({
         prompt_title = "Insert Unicode Symbol",
         sources = { "math", "greek", "latex", "arrows" },
@@ -154,6 +165,26 @@ vim.api.nvim_create_autocmd("FileType", {
     })
 
     vim.cmd([[call cornelis#bind_input("lam", "λ")]])
+    vim.cmd([[call cornelis#bind_input("pl", "⊎")]])
+
+    -- subscripts
+    local subscripts = {
+      ["u0"] = "₀",
+      ["u1"] = "₁",
+      ["u2"] = "₂",
+      ["u3"] = "₃",
+      ["u4"] = "₄",
+      ["u5"] = "₅",
+      ["u6"] = "₆",
+      ["u7"] = "₇",
+      ["u8"] = "₈",
+      ["u9"] = "₉",
+    }
+
+    for lhs, rhs in pairs(subscripts) do
+      vim.fn["cornelis#bind_input"](lhs, rhs)
+    end
+    vim.o.timeoutlen = 1000
   end,
 })
 -- Hide CMakeTools runner terminal from buffer list (buffer gets renamed after TermOpen)

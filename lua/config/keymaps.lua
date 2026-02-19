@@ -20,3 +20,6 @@ vim.keymap.set("v", "p", '"_dP', opts)
 vim.keymap.set("n", "<leader>cb", function()
   require("utils.banner").insert_banner()
 end, { desc = "Insert Banner Comment" })
+
+vim.keymap.set("n", "<leader>b,", "<cmd>BufferLineMovePrev<CR>", { desc = "Move buffer left", unpack(opts) })
+vim.keymap.set("n", "<leader>b.", "<cmd>BufferLineMoveNext<CR>", { desc = "Move buffer Right", unpack(opts) })
