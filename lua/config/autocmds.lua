@@ -22,6 +22,12 @@ vim.api.nvim_create_autocmd("FileType", {
       silent = true,
     })
 
+    vim.keymap.set("n", "<leader>hl", "<cmd>w<CR>", {
+      desc = "Save File",
+      buffer = ev.buf,
+      silent = true,
+    })
+
     vim.keymap.set("n", "<leader>hh", "<cmd>SwitchSourceAndHeader<CR>", {
       desc = "Switch Between Source and Header",
       buffer = ev.buf,
@@ -164,6 +170,7 @@ vim.api.nvim_create_autocmd("FileType", {
 
     vim.cmd([[call cornelis#bind_input("lam", "λ")]])
     vim.cmd([[call cornelis#bind_input("pl", "⊎")]])
+    vim.cmd([[call cornelis#bind_input("phi", "φ")]])
 
     -- subscripts
     local subscripts = {
