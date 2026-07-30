@@ -7,6 +7,65 @@
 -- Or remove existing autocmds by their group name (which is prefixed with `lazyvim_` for the defaults)
 -- e.g. vim.api.nvim_del_augroup_by_name("lazyvim_wrap_spell")
 
+-- Markdown
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = { "md", "markdown" },
+  callback = function(ev)
+    local wk = require("which-key")
+    wk.add({
+      { "<leader>h", group = "Markdown", icon = " ", buffer = ev.buf },
+    })
+
+    vim.keymap.set("n", "<leader>hp", "<cmd>MarkdownPreview<CR>", {
+      desc = "Open Preview Window",
+      buffer = ev.buf,
+      silent = true,
+    })
+
+    vim.keymap.set("n", "<leader>hb", function()
+      vim.api.nvim_put({ "<!-- -->" }, "l", true, true)
+    end, {
+      desc = "Add break comment",
+      buffer = ev.buf,
+      silent = true,
+    })
+
+    -- Insert Unicode symbol picker
+    vim.keymap.set("i", "<localleader>uu", function()
+      require("telescope.builtin").symbols({
+        prompt_title = "Insert Unicode Symbol",
+        sources = { "math", "greek", "latex", "arrows" },
+      })
+    end, { desc = "Insert Unicode symbol", buffer = ev.buf, silent = true })
+  end,
+})
+
+-- LaTeX
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = { "tex" },
+  callback = function(ev)
+    local wk = require("which-key")
+    wk.add({
+      { "<leader>h", group = "Latex", icon = " ", buffer = ev.buf },
+    })
+
+    vim.keymap.set("n", "<leader>hw", "<cmd>VimtexCountWords<CR>", {
+      desc = "Count Words All",
+      buffer = ev.buf,
+      silent = true,
+    })
+    vim.keymap.set("v", "<leader>hw", ":VimtexCountWords<CR>", {
+      desc = "Count Selected Words",
+      buffer = ev.buf,
+      silent = true,
+    })
+    vim.keymap.set("n", "<leader>hh", "<cmd>VimtexTocToggle<CR>", {
+      desc = "Toggle Table of Contents",
+      buffer = ev.buf,
+      silent = true,
+    })
+  end,
+})
 -- CPP keybinds
 vim.api.nvim_create_autocmd("FileType", {
   pattern = { "c", "cpp", "h", "hpp", "cmake" },
