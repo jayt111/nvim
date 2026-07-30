@@ -203,12 +203,10 @@ vim.api.nvim_create_autocmd("FileType", {
       { desc = "Make Case", buffer = ev.buf, silent = true }
     )
 
-    vim.keymap.set(
-      "n",
-      "<leader>h?",
-      "<cmd>CornelisQuestionToMeta<CR>",
-      { desc = "Make Case", buffer = ev.buf, silent = true }
-    )
+    vim.keymap.set("n", "]g", "<cmd>CornelisNextGoal<CR>", { desc = "Next Goal", buffer = ev.buf, silent = true })
+
+    vim.keymap.set("n", "[g", "<cmd>CornelisPrevGoal<CR>", { desc = "Prev Goal", buffer = ev.buf, silent = true })
+
     vim.keymap.set("n", "<leader>hh", "<cmd>CornelisGive<CR>", { desc = "Give", buffer = ev.buf, silent = true })
     -- Insert Unicode symbol picker
     vim.keymap.set("i", "<localleader>uu", function()
